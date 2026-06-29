@@ -27,6 +27,10 @@ export class CreateTeacherDto {
   @IsNotEmpty({ message: 'Le nom est obligatoire' })
   lastName!: string;
 
+  @IsString()
+  @IsNotEmpty({message: 'Date de naissance obligatoire'})
+  dateOfBirth!: string;
+
   @IsEnum(Gender, { message: 'Genre invalide' })
   gender!: Gender;
 
