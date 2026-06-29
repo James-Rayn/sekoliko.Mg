@@ -9,10 +9,10 @@ export class StudentService {
     constructor(private prisma: PrismaService) {}
 
     private async generateMatricule(): Promise<string> {
-        const year =  new Date().getFullYear;
+        const year = new Date().getFullYear();
         const count = await this.prisma.student.count();
-        const number = String(count + 1).padStart(4, '0');
-        return `SKL-${year}-${number}`;
+        const number = String(count + 1).padStart(3, '0');
+        return `LM-${year - 2000}-${number}`;
     }
 
     async create(dto: CreateStudentDto) {
