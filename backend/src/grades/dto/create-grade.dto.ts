@@ -24,8 +24,8 @@ export class CreateGradeDto {
 
   @IsInt()
   @Min(1)
-  @Max(2)
-  semester!: number; // 1 ou 2
+  @Max(5)
+  period!: number; // 1 ou 2
 
   @IsString()
   @IsNotEmpty({ message: "L'année scolaire est obligatoire" })
