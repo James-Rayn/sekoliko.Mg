@@ -38,7 +38,7 @@ export class TeachersService {
           gender: dto.gender,
           phone: dto.phone,
           address: dto.address,
-          dateOfBirth: dto.dateOfBirth,
+          dateOfBirth: new Date(dto.dateOfBirth),
           speciality: dto.speciality,
           userId: user.id,
         },
