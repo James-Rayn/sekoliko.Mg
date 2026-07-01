@@ -49,11 +49,11 @@ export class GradesController {
   @Roles('ADMIN', 'TEACHER', 'STUDENT', 'PARENT')
   findByStudent(
     @Param('id') id: string,
-    @Query('semester') semester?: string,
+    @Query('period') period?: string,
     @Query('academicYear') academicYear?: string,
   ) {
     return this.gradesService.findByStudent(id, {
-      semester: semester ? parseInt(semester) : undefined,
+      period: period ? parseInt(period) : undefined,
       academicYear,
     });
   }
@@ -74,12 +74,12 @@ export class GradesController {
   @Roles('ADMIN', 'TEACHER', 'STUDENT', 'PARENT')
   getAverage(
     @Param('studentId') studentId: string,
-    @Query('semester') semester: string,
+    @Query('period') period: string,
     @Query('academicYear') academicYear: string,
   ) {
     return this.gradesService.calculateAverage(
       studentId,
-      parseInt(semester),
+      parseInt(period),
       academicYear,
     );
   }
@@ -89,12 +89,12 @@ export class GradesController {
   @Roles('ADMIN', 'TEACHER', 'STUDENT', 'PARENT')
   getBulletin(
     @Param('studentId') studentId: string,
-    @Query('semester') semester: string,
+    @Query('period') period: string,
     @Query('academicYear') academicYear: string,
   ) {
     return this.gradesService.getBulletin(
       studentId,
-      parseInt(semester),
+      parseInt(period),
       academicYear,
     );
   }

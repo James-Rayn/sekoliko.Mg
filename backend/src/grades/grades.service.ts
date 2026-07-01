@@ -86,7 +86,7 @@ export class GradesService {
   // ── Voir toutes les notes d'un élève ─────────────────────
   async findByStudent(
     studentId: string,
-    filters?: { semester?: number; academicYear?: string },
+    filters?: { period?: number; academicYear?: string },
   ) {
     const student = await this.prisma.student.findUnique({
       where: { id: studentId },
@@ -97,7 +97,7 @@ export class GradesService {
     const grades = await this.prisma.grade.findMany({
       where: {
         studentId,
-        ...(filters?.semester && { semester: filters.semester }),
+        ...(filters?.period && { period: filters.period }),
         ...(filters?.academicYear && { academicYear: filters.academicYear }),
       },
       include: {
@@ -211,7 +211,7 @@ export class GradesService {
   // ── Générer le bulletin d'un élève ───────────────────────
   async getBulletin(
     studentId: string,
-    semester: number,
+    period: number,
     academicYear: string,
   ) {
     // Infos de l'élève
@@ -226,7 +226,7 @@ export class GradesService {
 
     // Toutes les notes du semestre
     const grades = await this.prisma.grade.findMany({
-      where: { studentId, semester, academicYear },
+      where: { studentId, period, academicYear },
       include: {
         subject: { select: { name: true, code: true, coefficient: true } },
         teacher: { select: { firstName: true, lastName: true } },
@@ -281,7 +281,7 @@ export class GradesService {
     return {
       school: 'Sekoliko MG',
       academicYear,
-      semester,
+      period,
       student: {
         firstName: student.firstName,
         lastName: student.lastName,
