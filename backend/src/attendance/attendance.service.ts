@@ -13,7 +13,7 @@ export class AttendanceService {
   constructor(private prisma: PrismaService) {}
 
   // ── Marquer la présence d'un élève ───────────────────────
-  async create(dto: CreateAttendanceDto, teacherId: string) {
+  async create(dto: CreateAttendanceDto, userId: string) {
     // Vérifier que l'élève existe
     const student = await this.prisma.student.findUnique({
       where: { id: dto.studentId },
@@ -32,6 +32,11 @@ export class AttendanceService {
         'Une présence a déjà été enregistrée pour cet élève ce jour',
       );
     }
+
+    const teacherId = await this.getTeacherId(userId)
+    if (!teacherId) throw new BadRequestException(
+      'Seul un enseignant peut enregistrer les présences',
+    )
 
     const attendance = await this.prisma.attendance.create({
       data: {
@@ -56,13 +61,18 @@ export class AttendanceService {
 
   // ── Faire l'appel d'une classe entière ───────────────────
   // C'est la fonctionnalité principale utilisée par les enseignants
-  async createBulk(dto: BulkAttendanceDto, teacherId: string) {
+  async createBulk(dto: BulkAttendanceDto, userId: string) {
     // Vérifier que la classe existe
     const classe = await this.prisma.class.findUnique({
       where: { id: dto.classId },
     });
     if (!classe) throw new NotFoundException('Classe introuvable');
 
+    const teacherId = await this.getTeacherId(userId)
+    if (!teacherId) throw new BadRequestException(
+      'Seul un enseignant peut enregistrer les présences'
+    )
+    
     const date = new Date(dto.date);
 
     // Supprimer les anciennes entrées du jour pour cette classe
@@ -338,5 +348,13 @@ export class AttendanceService {
       total: absents.length,
       absents,
     };
+  }
+
+  private async getTeacherId(userId: string): Promise<string | null> {
+    const teacher = await this.prisma.teacher.findFirst({
+      where: {userId},
+      select: {id: true},
+    });
+    return teacher?.id ?? null;
   }
 }
