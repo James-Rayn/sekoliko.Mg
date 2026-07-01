@@ -22,7 +22,7 @@ export class BulkAttendanceDto {
 
     @IsString()
     @IsNotEmpty({message: 'La classe est obligatoire'})
-    clasId!: string;
+    classId!: string;
 
     @IsArray()
     @ValidateNested({each: true})
