@@ -11,6 +11,7 @@ import { GradesModule } from './grades/grades.module';
 import { AttendanceModule } from './attendance/attendance.module';
 import { FinanceModule } from './finance/finance.module';
 import { MessagesModule } from './messages/messages.module';
+import { SubjectsModule } from './subjects/subjects.module';
 
 @Module({
   imports: [
@@ -23,7 +24,8 @@ import { MessagesModule } from './messages/messages.module';
     GradesModule,
     AttendanceModule,
     FinanceModule,
-    MessagesModule
+    MessagesModule,
+    SubjectsModule
   ],
 })
 export class AppModule {}
