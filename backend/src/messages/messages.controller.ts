@@ -72,26 +72,6 @@ export class MessagesController {
     return this.messagesService.markAllAsRead(user.id);
   }
 
-  // GET /messages/:id → Voir un message
-  @Get(':id')
-  @Roles('ADMIN', 'TEACHER', 'STUDENT', 'PARENT')
-  findOne(
-    @Param('id') id: string,
-    @CurrentUser() user: any,
-  ) {
-    return this.messagesService.findOne(id, user.id);
-  }
-
-  // DELETE /messages/:id → Supprimer un message
-  @Delete(':id')
-  @Roles('ADMIN', 'TEACHER', 'STUDENT', 'PARENT')
-  delete(
-    @Param('id') id: string,
-    @CurrentUser() user: any,
-  ) {
-    return this.messagesService.delete(id, user.id);
-  }
-
   // ── Annonces ─────────────────────────────────────────────
 
   // POST /messages/announcements → Créer une annonce
@@ -121,4 +101,25 @@ export class MessagesController {
   deleteAnnouncement(@Param('id') id: string) {
     return this.messagesService.deleteAnnouncement(id);
   }
+
+  // GET /messages/:id → Voir un message
+  @Get(':id')
+  @Roles('ADMIN', 'TEACHER', 'STUDENT', 'PARENT')
+  findOne(
+    @Param('id') id: string,
+    @CurrentUser() user: any,
+  ) {
+    return this.messagesService.findOne(id, user.id);
+  }
+
+  // DELETE /messages/:id → Supprimer un message
+  @Delete(':id')
+  @Roles('ADMIN', 'TEACHER', 'STUDENT', 'PARENT')
+  delete(
+    @Param('id') id: string,
+    @CurrentUser() user: any,
+  ) {
+    return this.messagesService.delete(id, user.id);
+  }
 }
+
