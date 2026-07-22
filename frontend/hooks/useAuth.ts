@@ -1,9 +1,8 @@
-'use client'
+'use client';
 
 import api from "@/lib/axios";
 import { AuthResponse, User } from "@/types/user";
-import { routerServerGlobal } from "next/dist/server/lib/router-utils/router-server-context";
-import router, { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 export function useAuth() {
