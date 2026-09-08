@@ -23,7 +23,7 @@ export default function AttendancePage() {
   const [selectedDate, setSelectedDate] = useState(
     new Date().toISOString().split('T')[0],
   );
-  const [attendance, setAttendance] = useState
+  const [attendance, setAttendance] = useState<
     Record<string, { status: string; reason: string }>
   >({});
   const [loading, setLoading] = useState(false);
@@ -52,7 +52,7 @@ export default function AttendancePage() {
         setExistingAttendance(existing);
 
         // Initialiser l'état des présences
-        const initialAttendance: Record
+        const initialAttendance: Record<
           string,
           { status: string; reason: string }
         > = {};
@@ -130,7 +130,7 @@ export default function AttendancePage() {
     {} as Record<string, number>,
   );
 
-  const statusConfig: Record
+  const statusConfig: Record<
     string,
     { label: string; color: string; bg: string; icon: string }
   > = {
