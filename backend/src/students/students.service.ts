@@ -71,7 +71,13 @@ export class StudentService {
             },
             include: {
                 user: {select: {email: true}},
-                class: {select: {name: true, level: true}},
+                class: {
+                    select: {
+                        id: true,
+                        name: true,
+                        level: true
+                    }
+                },
             },
             orderBy: {lastName: 'asc'},
         });
