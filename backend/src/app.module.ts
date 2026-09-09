@@ -13,6 +13,7 @@ import { FinanceModule } from './finance/finance.module';
 import { MessagesModule } from './messages/messages.module';
 import { SubjectsModule } from './subjects/subjects.module';
 import { DashboardModule } from './dashboard/dashboard.module';
+import { SchedulesModule } from './schedules/schedules.module';
 
 @Module({
   imports: [
@@ -27,7 +28,8 @@ import { DashboardModule } from './dashboard/dashboard.module';
     FinanceModule,
     MessagesModule,
     SubjectsModule,
-    DashboardModule
+    DashboardModule,
+    SchedulesModule,
   ],
 })
 export class AppModule {}
