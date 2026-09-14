@@ -7,10 +7,13 @@ import { PrismaService } from '../prisma/prisma.service';
 import { CreateAttendanceDto } from './dto/create-attendance.dto';
 import { BulkAttendanceDto } from './dto/bulk-attendance.dto';
 import { UpdateAttendanceDto } from './dto/update-attendance.dto';
+import { NotificationsService } from 'src/notifications/notifications.service';
 
 @Injectable()
 export class AttendanceService {
-  constructor(private prisma: PrismaService) {}
+  constructor(
+    private prisma: PrismaService,
+    private notifications: NotificationsService) {}
 
   // ── Marquer la présence d'un élève ───────────────────────
   async create(dto: CreateAttendanceDto, userId: string) {
@@ -106,6 +109,26 @@ export class AttendanceService {
       late: created.filter((a) => a.status === 'LATE').length,
       excused: created.filter((a) => a.status === 'EXCUSED').length,
     };
+
+    const absents = created.filter((a)=> a.status === 'ABSENT');
+    for (const absent of absents) {
+      const parentLinks = await this.prisma.parentStudent.findMany({
+        where: { studentId: absent.studentId },
+          include: {
+            parent: {
+              include: { user: { select: { id: true } } },
+            },
+            student: { select: { firstName: true, lastName: true } },
+          },
+        });
+
+    for (const link of parentLinks) {
+      this.notifications.onAbsenceDetected(
+        `${link.student.firstName} ${link.student.lastName}`,
+        link.parent.user.id,
+      );
+    }
+    }
 
     return {
       message: `Appel enregistré pour ${created.length} élèves`,

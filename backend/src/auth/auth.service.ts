@@ -1,4 +1,4 @@
-import { ConflictException, Injectable, UnauthorizedException } from "@nestjs/common";
+import { ConflictException, Injectable, NotFoundException, UnauthorizedException } from "@nestjs/common";
 import { PrismaService } from "src/prisma/prisma.service";
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
@@ -51,5 +51,32 @@ export class AuthService {
             where: {id: userId},
             select: {id: true, email: true, role: true, createdAt: true},
         });
+    }
+
+    async changePassword(
+    userId: string,
+    currentPassword: string,
+    newPassword: string,
+    ) {
+    const user = await this.prisma.user.findUnique({
+    where: { id: userId },
+    });
+    if (!user) throw new NotFoundException('Utilisateur introuvable');
+
+    // Vérifier le mot de passe actuel
+    const isValid = await bcrypt.compare(currentPassword, user.password);
+    if (!isValid) {
+        throw new UnauthorizedException('Mot de passe actuel incorrect');
+    }
+
+    // Chiffrer le nouveau mot de passe
+    const hashed = await bcrypt.hash(newPassword, 10);
+
+    await this.prisma.user.update({
+        where: { id: userId },
+        data: { password: hashed },
+    });
+
+    return { message: 'Mot de passe modifié avec succès' };
     }
 }

@@ -23,4 +23,17 @@ export class AuthController {
     getProfile(@CurrentUser() user: any) {
         return this.authService.getProfile(user.id)
     }
+
+    @UseGuards(JwtAuthGuard)
+    @Patch('change-password')
+    changePassword(
+    @CurrentUser() user: any,
+    @Body() body: { currentPassword: string; newPassword: string },
+    ) {
+    return this.authService.changePassword(
+        user.id,
+        body.currentPassword,
+        body.newPassword,
+    );
+    }
 }

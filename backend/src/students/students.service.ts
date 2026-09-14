@@ -3,10 +3,13 @@ import { PrismaService } from "src/prisma/prisma.service";
 import { CreateStudentDto } from "./dto/create-student.dto";
 import * as bcrypt from 'bcrypt';
 import { UpdateStudentDto } from "./dto/update-student.dto";
+import { NotificationsService } from "src/notifications/notifications.service";
 
 @Injectable()
 export class StudentService {
-    constructor(private prisma: PrismaService) {}
+    constructor(
+        private prisma: PrismaService,
+        private notifications: NotificationsService) {}
 
     private async generateMatricule(): Promise<string> {
         const year = new Date().getFullYear();
@@ -57,10 +60,11 @@ export class StudentService {
             });
         });
         
-        return {
-            message: 'Elève créé avec succès',
-            student,
-        };
+        const result = {message: 'Élève créé avec succès', student };
+        this.notifications.onStudentCreated(
+            `${dto.firstName} ${dto.lastName}`
+        );
+        return result;
     }
 
     async findall(filters?: {classId?: string; isActive?: boolean}) {
