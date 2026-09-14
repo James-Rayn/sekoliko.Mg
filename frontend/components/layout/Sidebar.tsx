@@ -19,6 +19,7 @@ const menuItems = [
       { label: 'Enseignants', icon: '👨‍🏫', href: '/admin/teachers' },
       { label: 'Classes', icon: '🏫', href: '/admin/classes' },
       { label: 'Matières', icon: '📚', href: '/admin/subjects' },
+      { label: 'Parents', icon: '👨‍👩‍👧', href: '/admin/parents' },      
     ],
   },
   {
@@ -34,6 +35,7 @@ const menuItems = [
     items: [
       { label: 'Paiements', icon: '💰', href: '/admin/finance' },
       { label: 'Frais scolaires', icon: '🧾', href: '/admin/fee-types' },
+      { label: 'Enregistrer paiement', icon: '💳', href: '/admin/finance/payments/new' },
     ],
   },
   {

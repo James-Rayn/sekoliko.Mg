@@ -14,6 +14,7 @@ import { MessagesModule } from './messages/messages.module';
 import { SubjectsModule } from './subjects/subjects.module';
 import { DashboardModule } from './dashboard/dashboard.module';
 import { SchedulesModule } from './schedules/schedules.module';
+import { ParentsModule } from './parents/parents.module';
 
 @Module({
   imports: [
@@ -30,6 +31,7 @@ import { SchedulesModule } from './schedules/schedules.module';
     SubjectsModule,
     DashboardModule,
     SchedulesModule,
+    ParentsModule,
   ],
 })
 export class AppModule {}
