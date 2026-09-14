@@ -7,6 +7,7 @@ import { usePathname } from 'next/navigation';
 import { useAuth } from '@/hooks/useAuth';
 
 const menuItems = [
+  { label: 'Mon profil', icon: '👤', href: '/parent/profile' },
   { label: 'Tableau de bord', icon: '📊', href: '/parent/dashboard' },
   { label: 'Mes enfants', icon: '👨‍👩‍👧', href: '/parent/children' },
   { label: 'Paiements', icon: '💰', href: '/parent/payments' },

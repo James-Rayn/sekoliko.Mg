@@ -7,6 +7,7 @@ import { usePathname } from 'next/navigation';
 import { useAuth } from '@/hooks/useAuth';
 
 const menuItems = [
+  { label: 'Mon profil', icon: '👤', href: '/teacher/profile' },
   { label: 'Tableau de bord', icon: '📊', href: '/teacher/dashboard' },
   { label: 'Mes classes', icon: '🏫', href: '/teacher/classes' },
   { label: 'Notes', icon: '📝', href: '/teacher/grades' },

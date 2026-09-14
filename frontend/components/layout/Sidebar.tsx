@@ -107,6 +107,13 @@ export default function Sidebar() {
             <p className="text-blue-300 text-xs">{user?.role}</p>
           </div>
         </div>
+        <Link
+            href="/admin/profile"
+            className="flex items-center gap-2 px-3 py-2 rounded-lg text-blue-200 hover:bg-blue-700 transition text-sm mb-1"
+          >
+            <span>👤</span>
+            <span>Mon profil</span>
+        </Link>
         <button
           onClick={logout}
           className="w-full flex items-center gap-2 px-3 py-2 rounded-lg text-blue-200 hover:bg-red-600 hover:text-white transition-all duration-200 text-sm"
