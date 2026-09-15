@@ -136,7 +136,7 @@ export default function ParentLayout({
           </div>
         </div>
       </header>
-      <main className="ml-64 p-6 min-h-screen">{children}</main>
+      <main className="ml-64 mt-16 p-6 min-h-screen">{children}</main>
     </div>
   );
 }
