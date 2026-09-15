@@ -6,10 +6,13 @@ import {
 import { PrismaService } from '../prisma/prisma.service';
 import { CreateMessageDto } from './dto/create-message.dto';
 import { CreateAnnouncementDto } from './dto/create-announcement.dto';
+import { NotificationsService } from 'src/notifications/notifications.service';
 
 @Injectable()
 export class MessagesService {
-  constructor(private prisma: PrismaService) {}
+  constructor(
+    private prisma: PrismaService,
+    private notifications: NotificationsService) {}
 
   // ────────────────────────────────────────────────────────
   // MESSAGERIE PRIVÉE
@@ -48,6 +51,12 @@ export class MessagesService {
         receiver: { select: { email: true, role: true } },
       },
     });
+
+    this.notifications.onNewMessage(
+      dto.receiverId,
+      sender.email,
+      dto.subject
+    );
 
     return {
       message: 'Message envoyé avec succès',

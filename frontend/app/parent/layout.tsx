@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useAuth } from '@/hooks/useAuth';
+import NotificationBell from '@/components/shared/NotificationBell';
 
 const menuItems = [
   { label: 'Mon profil', icon: '👤', href: '/parent/profile' },
@@ -80,7 +81,9 @@ export default function ParentLayout({
 }) {
   const router = useRouter();
   const [authorized, setAuthorized] = useState(false);
+  const [user, setUser] = useState<any>(null);
 
+  //const user = getUser(); 
   useEffect(() => {
     const token = localStorage.getItem('token');
     const user = localStorage.getItem('user');
@@ -113,7 +116,31 @@ export default function ParentLayout({
   return (
     <div className="min-h-screen bg-gray-100">
       <ParentSidebar />
+      {/* Navbar parent */}
+      <header className="fixed top-0 left-64 right-0 h-16 bg-white border-b border-gray-200 flex items-center justify-between px-6 z-40 shadow-sm">
+        <h2 className="text-lg font-semibold text-gray-800">
+          Espace Parent
+        </h2>
+        <div className="flex items-center gap-3">
+          <NotificationBell />
+          <div className="flex items-center gap-2 pl-3 border-l border-gray-200">
+            <div className="w-8 h-8 bg-orange-600 rounded-full flex items-center justify-center text-white text-sm font-bold">
+              {user?.email?.charAt(0).toUpperCase()}
+            </div>
+            <div>
+              <p className="text-sm font-medium text-gray-800 leading-none">
+                {user?.email}
+              </p>
+              <p className="text-xs text-gray-400">Parent</p>
+            </div>
+          </div>
+        </div>
+      </header>
       <main className="ml-64 p-6 min-h-screen">{children}</main>
     </div>
   );
+}
+
+function getUser() {
+  throw new Error('Function not implemented.');
 }

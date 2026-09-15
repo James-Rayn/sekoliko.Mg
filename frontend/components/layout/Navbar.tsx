@@ -2,6 +2,7 @@
 
 import { usePathname } from 'next/navigation';
 import { useAuth } from '@/hooks/useAuth';
+import NotificationBell from '../shared/NotificationBell';
 
 const pageTitles: Record<string, string> = {
   '/admin/dashboard': 'Tableau de bord',
@@ -45,7 +46,9 @@ export default function Navbar() {
 
         {/* Notifications */}
         <button className="relative p-2 text-gray-500 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition">
-          <span className="text-xl">🔔</span>
+          <span className="text-xl">
+            <NotificationBell />
+          </span>
           <span className="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full" />
         </button>
 
