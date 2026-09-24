@@ -47,7 +47,7 @@ export default function AdminLayout({
       <Sidebar />
       <Navbar />
       {/* Contenu décalé de la largeur de la sidebar et de la hauteur de la navbar */}
-      <main className="ml-64 mt-16 p-6 min-h-screen">
+      <main className="ml-64 mt-16 p-6 min-h-screen bg-gray-50 animate-fade-in">
         {children}
       </main>
     </div>

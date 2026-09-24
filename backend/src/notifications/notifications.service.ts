@@ -10,31 +10,26 @@ export interface Notification {
 
 @Injectable()
 export class NotificationsService {
-  constructor(private gateway: NotificationsGateway) {}
+  constructor(
+    private gateway: NotificationsGateway, // ← Gateway injecté ici
+  ) {}
 
-  // ── Notifier un utilisateur spécifique ───────────────────
   notifyUser(userId: string, notification: Notification) {
     this.gateway.sendToUser(userId, notification);
   }
 
-  // ── Notifier tous les admins ─────────────────────────────
   notifyAdmins(notification: Notification) {
     this.gateway.sendToRole('ADMIN', notification);
   }
 
-  // ── Notifier tous les enseignants ────────────────────────
   notifyTeachers(notification: Notification) {
     this.gateway.sendToRole('TEACHER', notification);
   }
 
-  // ── Notifier tout le monde ───────────────────────────────
   notifyAll(notification: Notification) {
     this.gateway.sendToAll(notification);
   }
 
-  // ── Événements métier ────────────────────────────────────
-
-  // Nouveau élève inscrit
   onStudentCreated(studentName: string) {
     this.notifyAdmins({
       type: 'success',
@@ -43,7 +38,6 @@ export class NotificationsService {
     });
   }
 
-  // Absence détectée
   onAbsenceDetected(studentName: string, parentUserId: string) {
     this.notifyUser(parentUserId, {
       type: 'warning',
@@ -57,7 +51,6 @@ export class NotificationsService {
     });
   }
 
-  // Nouveau message
   onNewMessage(receiverUserId: string, senderName: string, subject: string) {
     this.notifyUser(receiverUserId, {
       type: 'info',
@@ -66,7 +59,6 @@ export class NotificationsService {
     });
   }
 
-  // Paiement enregistré
   onPaymentReceived(
     studentName: string,
     amount: number,
@@ -86,16 +78,6 @@ export class NotificationsService {
     }
   }
 
-  // Nouvelle note
-  onGradeAdded(studentName: string, subject: string, value: number) {
-    this.notifyAdmins({
-      type: 'info',
-      title: 'Nouvelle note',
-      message: `${studentName} — ${subject} : ${value}/20`,
-    });
-  }
-
-  // Nouvelle annonce
   onAnnouncementCreated(title: string) {
     this.notifyAll({
       type: 'info',

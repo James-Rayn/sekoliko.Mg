@@ -36,29 +36,43 @@ interface DashboardData {
 }
 
 // ── Composant carte KPI ──────────────────────────────────
+// Remplacez la fonction KpiCard par :
 function KpiCard({
   title,
   value,
   subtitle,
   icon,
   color,
+  trend,
 }: {
   title: string;
   value: string | number;
   subtitle?: string;
   icon: string;
   color: string;
+  trend?: { value: string; positive: boolean };
 }) {
   return (
-    <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-5 flex items-center gap-4">
-      <div className={`w-14 h-14 ${color} rounded-xl flex items-center justify-center text-2xl flex-shrink-0`}>
-        {icon}
+    <div className="card p-5 hover:shadow-md transition-all duration-200">
+      <div className="flex items-start justify-between mb-3">
+        <div className={`w-11 h-11 ${color} rounded-xl flex items-center justify-center text-xl`}>
+          {icon}
+        </div>
+        {trend && (
+          <span className={`text-xs font-medium px-2 py-1 rounded-full ${
+            trend.positive
+              ? 'bg-green-50 text-green-700'
+              : 'bg-red-50 text-red-700'
+          }`}>
+            {trend.positive ? '↑' : '↓'} {trend.value}
+          </span>
+        )}
       </div>
-      <div>
-        <p className="text-sm text-gray-500">{title}</p>
-        <p className="text-2xl font-bold text-gray-800">{value}</p>
-        {subtitle && <p className="text-xs text-gray-400 mt-0.5">{subtitle}</p>}
-      </div>
+      <p className="text-2xl font-bold text-gray-900">{value}</p>
+      <p className="text-sm text-gray-500 mt-0.5">{title}</p>
+      {subtitle && (
+        <p className="text-xs text-gray-400 mt-1">{subtitle}</p>
+      )}
     </div>
   );
 }
@@ -140,35 +154,36 @@ export default function AdminDashboardPage() {
 
       {/* KPIs principaux */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-        <KpiCard
-          title="Élèves actifs"
-          value={data.kpis.students.active}
-          subtitle={`${data.kpis.students.total} au total`}
-          icon="👨‍🎓"
-          color="bg-blue-50"
-        />
-        <KpiCard
-          title="Enseignants"
-          value={data.kpis.teachers.active}
-          subtitle={`${data.kpis.teachers.total} au total`}
-          icon="👨‍🏫"
-          color="bg-green-50"
-        />
-        <KpiCard
-          title="Classes"
-          value={data.kpis.classes}
-          subtitle="Classes actives"
-          icon="🏫"
-          color="bg-purple-50"
-        />
-        <KpiCard
-          title="Matières"
-          value={data.kpis.subjects}
-          subtitle="Matières enseignées"
-          icon="📚"
-          color="bg-orange-50"
-        />
-      </div>
+  <KpiCard
+    title="Élèves actifs"
+    value={data.kpis.students.active}
+    subtitle={`${data.kpis.students.total} au total`}
+    icon="👨‍🎓"
+    color="bg-blue-50"
+    trend={{ value: 'Ce mois', positive: true }}
+  />
+  <KpiCard
+    title="Enseignants"
+    value={data.kpis.teachers.active}
+    subtitle={`${data.kpis.teachers.total} au total`}
+    icon="👨‍🏫"
+    color="bg-green-50"
+  />
+  <KpiCard
+    title="Classes actives"
+    value={data.kpis.classes}
+    subtitle="Cette année"
+    icon="🏫"
+    color="bg-purple-50"
+  />
+  <KpiCard
+    title="Matières"
+    value={data.kpis.subjects}
+    subtitle="Enseignées"
+    icon="📚"
+    color="bg-orange-50"
+  />
+</div>
 
       {/* Ligne 2 — Présences + Finance + Pédagogie */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">

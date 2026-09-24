@@ -4,7 +4,7 @@ import { StudentService } from "./students.service";
 import { NotificationsModule } from "src/notifications/notifications.module";
 
 @Module({
-    imports: [NotificationsModule],
+    imports: [NotificationsModule, ],
     controllers: [StudentController],
     providers: [StudentService],
     exports: [StudentService],
